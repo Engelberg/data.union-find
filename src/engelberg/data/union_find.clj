@@ -8,7 +8,7 @@
   (contains-element? [uf k] "Is key k in uf?")
   (elements [uf] "Returns a sequence of the elements")
   (connect [uf key1 key2] "Returns new union-find data structure where key1 and key2 are connected")
-  (connected? [uf key1 key2] "Are key1 and key2 in the same connected component? Returns true if connected, false if not, or nil if key is not present")
+  (connected? [uf key1 key2] "Are key1 and key2 in the same connected component?")
   (component [uf k] "Returns component containing key k, or nil if k is not present"))
 
 ;; The data structure stores a mapping from each element (key) to a canonical representative element in its component
@@ -49,10 +49,7 @@
   (connected? [uf key1 key2]
     (let [canonical1 (keys->canonical key1 key1)
           canonical2 (keys->canonical key2 key2)]
-      (cond
-        (not (contains? canonical->components canonical1)) nil
-        (not (contains? canonical->components canonical2)) nil
-        :else (= canonical1 canonical2))))
+      (= canonical1 canonical2)))
   (component [uf k]
     (canonical->components (keys->canonical k k))))
 

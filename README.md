@@ -63,8 +63,13 @@ true
 => (uf/connected? uf 2 4)
 false
 
+;; connected? assumes you are asking about keys it knows about. Here's the behavior if you give it a bad input.
+
 => (uf/connected? uf 1 9)
-nil   ; Returns nil in this case, because it doesn't know anything about 9
+false   ; Data structure doesn't know anything about 9
+
+=> (uf/connected? uf 9 9)
+true    ; Data structure doesn't know anything about 9, but 9=9, so returns true
 
 => (uf/contains-element? uf 1)
 true
@@ -74,6 +79,9 @@ false
 
 => (uf/component uf 1)
 [2 1 3]
+
+=> (uf/component uf 9)
+nil
 ```
 
 Note that in the `union-find` constructor, passing in the starting elements is optional. If you initialize the data structure with no elements, it will infer the elements as you add connections.
