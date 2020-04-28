@@ -47,12 +47,14 @@
                                                 (assoc canonical2 (into component2 component1)))]
               (->UnionFind new-keys->canonical new-canonical->components))))))
   (connected? [uf key1 key2]
-    (let [canonical1 (canonical->components (keys->canonical key1 key1))
-          canonical2 (canonical->components (keys->canonical key2 key2))]
-      (and canonical1 canonical2 (= canonical1 canonical2))))
+    (let [canonical1 (keys->canonical key1 key1)
+          canonical2 (keys->canonical key2 key2)]
+      (cond
+        (not (contains? canonical->components canonical1)) nil
+        (not (contains? canonical->components canonical2)) nil
+        :else (= canonical1 canonical2))))
   (component [uf k]
-    (when-let [kc (find keys->canonical k)]
-      (get canonical->components (val kc)))))
+    (canonical->components (keys->canonical k k))))
 
 (def EMPTY (->UnionFind {} {}))
 
