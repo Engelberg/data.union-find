@@ -14,7 +14,7 @@
        (remove (fn [[caller called]] (= caller called)))))
 
 (defn connections "Returns lazy sequence of union-find data structure's evolution as connections are made" []
-  (reductions (partial apply uf/connect) (apply uf/union-find (range 1000000)) (calls)))
+  (reductions (partial apply uf/connect) (uf/union-find) (calls)))
 
 (defn solve []
   (count (take-while #(< (count (uf/component % 524287)) (* 0.99 1000000)) (connections))))
