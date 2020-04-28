@@ -66,6 +66,12 @@ false
 => (uf/connected? uf 1 9)
 nil   ; Returns nil in this case, because it doesn't know anything about 9
 
+=> (uf/contains-element? uf 1)
+true
+
+=> (uf/contains-element? uf 9)
+false
+
 => (uf/component uf 1)
 [2 1 3]
 ```
@@ -107,6 +113,10 @@ The union-find protocol:
   (connected? [uf key1 key2] "Are key1 and key2 in the same connected component? Returns true if connected, false if not, or nil if key is not present")
   (component [uf k] "Returns component containing key k, or nil if k is not present"))
 ```
+
+## Examples
+
+See the examples directory for a solution to the Project Euler problem.
 
 ## License
 
