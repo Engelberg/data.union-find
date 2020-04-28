@@ -4,12 +4,21 @@
   "A protocol for declaring connections between elements and querying status of connected components"
   (count-components [uf] "Returns number of connected components")
   (components [uf] "Returns a sequence of the connected components")
-  (count-elements [uf] "Returns number of elements" )
+  (count-elements [uf] "Returns number of elements")
   (contains-element? [uf k] "Is key k in uf?")
   (elements [uf] "Returns a sequence of the elements")
   (connect [uf key1 key2] "Returns new union-find data structure where key1 and key2 are connected")
   (connected? [uf key1 key2] "Are key1 and key2 in the same connected component? Returns true if connected, false if not, or nil if key is not present")
   (component [uf k] "Returns component containing key k, or nil if k is not present"))
+
+;; The data structure stores a mapping from each element (key) to a canonical representative element in its component
+;; It also stores a mapping from each canonical representative to its component
+;; Thus, to lookup any element's component, we look up its canonical representative, and then lookup the representative's component.
+;; To see if two elements are in the same component, we see if they have the same canonical representative.
+
+;; For performance, we don't bother storing the self-referential link from a canonical representative element to itself in the keys->canonical map. Its presence can be deduced from canonical->components, so it's a waste of memory.
+
+;; The only really clever algorithmic trick here is that when merging two connected components, we must take care to merge the smaller component into the larger one. That's the key to getting good performance.
 
 (defrecord UnionFind [keys->canonical canonical->components]
   IUnionFind
