@@ -22,22 +22,7 @@
     (if (= key1 key2)
       (if (contains-element? uf key1) uf
           (->UnionFind keys->canonical
-                       (conj canonical->components [key1 [key1]])))
-      ;; (let [key->canonical1 (find keys->canonical key1)
-      ;;       key->canonical2 (find keys->canonical key2)]
-      ;;   (cond
-      ;;     (and (nil? key->canonical1) (nil? key->canonical2))
-      ;;     (->UnionFind (assoc keys->canonical key1 key1, key2 key1)
-      ;;                  (assoc canonical->components key1 [key1 key2]))
-      ;;     (nil? key->canonical1)
-      ;;     (let [canonical2 (val key->canonical2)]
-      ;;       (->UnionFind (assoc keys->canonical key1 canonical2)
-      ;;                    (update canonical->components canonical2 conj key1)))
-      ;;     (nil? key->canonical2)
-      ;;     (let [canonical1 (val key->canonical1)]
-      ;;       (->UnionFind (assoc keys->canonical key2 canonical1)
-      ;;                    (update canonical->components canonical1 conj key2)))
-      ;;     :else
+                       (assoc canonical->components key1 [key1])))
       (let [canonical1 (keys->canonical key1 key1)
             canonical2 (keys->canonical key2 key2)]
         (if (= canonical1 canonical2) uf   ; already the same
